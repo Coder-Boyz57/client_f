@@ -5,11 +5,6 @@ from g4f.client import Client
 # Create Flask app
 app = Flask(__name__)
 
-# Setup event loop for Windows
-def setup_event_loop():
-    if asyncio.get_event_loop_policy().__class__.__name__ != "WindowsSelectorEventLoopPolicy":
-        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-
 # Function to get chat response
 def get_chat_response(messages, model="gpt-4o-mini"):
     client = Client()
@@ -28,9 +23,6 @@ def chat():
         data = request.get_json()
         messages = data.get('messages', [])
         model = data.get('model', 'gpt-4o-mini')
-
-        # Ensure setup for event loop
-        setup_event_loop()
 
         # Get response from chat model
         response_content = get_chat_response(messages, model)
